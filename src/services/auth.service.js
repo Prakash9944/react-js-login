@@ -16,7 +16,7 @@ const login = (email, password) => {
       password,
     })
     .then((response) => {
-      if (response && response.data && response.data.statusCode == 200) {
+      if (response && response.data && response.data.statusCode === 200) {
         localStorage.setItem("user", JSON.stringify(response.data));
         return response.data
       }
