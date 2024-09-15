@@ -18,7 +18,7 @@ const Profile = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:3010/api/upload', {
+      const response = await fetch('http://3.239.100.192:3010/api/upload', {
         method: 'POST',
         body: formData,
       });
