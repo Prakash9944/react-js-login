@@ -67,11 +67,11 @@ const Register = (props) => {
       AuthService.register(email, password).then(
         (response) => {
           let data = response.data || {}
-          if (data.statusCode == 200 || data.statusCode == 201) {
+          if ((data.statusCode === 200) || (data.statusCode === 201)) {
             setMessage("User signup successfully and go to login page by clicking login btn!");
             setSuccessful(true);
           } else {
-            let errMsg = data.response && data.response.message || "Unable to signup!"
+            let errMsg = (data.response && data.response.message) || "Unable to signup!"
             setMessage(errMsg);
           }
         },
