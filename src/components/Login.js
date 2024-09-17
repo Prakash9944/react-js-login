@@ -39,10 +39,7 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
-    setMessage("");
     setLoading(true);
-
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {

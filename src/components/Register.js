@@ -37,7 +37,7 @@ const vpassword = (value) => {
   }
 };
 
-const Register = (props) => {
+const Register = () => {
   const form = useRef();
   const checkBtn = useRef();
 
@@ -46,6 +46,7 @@ const Register = (props) => {
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
   const [otpSent, setOtpSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onChangeEmail = (e) => {
     const email = e.target.value;
@@ -59,10 +60,7 @@ const Register = (props) => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-
-    setMessage("");
-    setSuccessful(false);
-    setOtpSent(true)
+    setLoading(true);
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
@@ -70,11 +68,15 @@ const Register = (props) => {
         (response) => {
           let data = response.data || {}
           if ((data.statusCode === 200) || (data.statusCode === 201)) {
+            console.log("data.", data)
+            setOtpSent(true)
             setMessage("User signup successfully and go to login page by clicking login btn!");
             setSuccessful(true);
+            setLoading(false);
           } else {
             let errMsg = (data.response && data.response.message) || "Unable to signup!"
             setMessage(errMsg);
+            setLoading(false);
           }
         },
         (error) => {
@@ -87,8 +89,11 @@ const Register = (props) => {
 
           setMessage(resMessage);
           setSuccessful(false);
+          setLoading(false);
         }
       );
+    } else {
+      setLoading(false);
     }
   };
 
@@ -131,7 +136,12 @@ const Register = (props) => {
                   </div>
 
                   <div className="form-group">
-                    <button className="btn btn-primary btn-block">Sign Up</button>
+                    <button className="btn btn-primary btn-block" disabled={loading}>
+                    {loading && (
+                      <span className="spinner-border spinner-border-sm"></span>
+                    )}
+                    <span>Sign Up</span>
+                  </button>
                   </div>
                 </div>
               )}

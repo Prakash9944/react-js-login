@@ -8,10 +8,9 @@ let VerifyOtp = ({ email }) => {
 
   let handleSubmitOtp = () => {
     AuthService.verifyOtp(email , otp).then((result) => {
-        console.log("result", result)
         if (result.data && result.data.response === "SUCCESS") {
-
             navigate("/login");
+            alert("Otp Verified successfully!")
         } else {
             alert("Invalid otp message!")
         }
