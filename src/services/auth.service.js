@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://3.239.100.192:3010/api/";
+const API_URL = "http://localhost:3010/api/";
 
 const register = (email, password) => {
   return axios.post(API_URL + "signup", {
@@ -24,6 +24,13 @@ const login = (email, password) => {
     })
 };
 
+let verifyOtp = (email, otp) => {
+  return axios.post(API_URL + "verify", {
+    email,
+    otp
+  });
+}
+
 const logout = () => {
   localStorage.removeItem("user");
   return axios.post(API_URL + "signout").then((response) => {
@@ -39,7 +46,8 @@ const AuthService = {
   register,
   login,
   logout,
-  getCurrentUser
+  getCurrentUser,
+  verifyOtp
 }
 
 export default AuthService;

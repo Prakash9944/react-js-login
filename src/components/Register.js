@@ -5,6 +5,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "../services/auth.service";
+import VerifyOtp from "./Verify";
 
 const required = (value) => {
   if (!value) {
@@ -44,6 +45,7 @@ const Register = (props) => {
   const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
 
   const onChangeEmail = (e) => {
     const email = e.target.value;
@@ -60,7 +62,7 @@ const Register = (props) => {
 
     setMessage("");
     setSuccessful(false);
-
+    setOtpSent(true)
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
@@ -91,62 +93,68 @@ const Register = (props) => {
   };
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        />
+    <div>
+      {!otpSent ? (
+        <div className="col-md-12">
+          <div className="card card-container">
+            <img
+              src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+              alt="profile-img"
+              className="profile-img-card"
+            />
 
-        <Form onSubmit={handleRegister} ref={form}>
-          {!successful && (
-            <div>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="email"
-                  value={email}
-                  onChange={onChangeEmail}
-                  validations={[required, validEmail]}
-                />
-              </div>
+            <Form onSubmit={handleRegister} ref={form}>
+              {!successful && (
+                <div>
+                  <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <Input
+                      type="text"
+                      className="form-control"
+                      name="email"
+                      value={email}
+                      onChange={onChangeEmail}
+                      validations={[required, validEmail]}
+                    />
+                  </div>
 
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <Input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  value={password}
-                  onChange={onChangePassword}
-                  validations={[required, vpassword]}
-                />
-              </div>
+                  <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <Input
+                      type="password"
+                      className="form-control"
+                      name="password"
+                      value={password}
+                      onChange={onChangePassword}
+                      validations={[required, vpassword]}
+                    />
+                  </div>
 
-              <div className="form-group">
-                <button className="btn btn-primary btn-block">Sign Up</button>
-              </div>
-            </div>
-          )}
+                  <div className="form-group">
+                    <button className="btn btn-primary btn-block">Sign Up</button>
+                  </div>
+                </div>
+              )}
 
-          {message && (
-            <div className="form-group">
-              <div
-                className={
-                  successful ? "alert alert-success" : "alert alert-danger"
-                }
-                role="alert"
-              >
-                {message}
-              </div>
-            </div>
-          )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
-      </div>
+              {message && (
+                <div className="form-group">
+                  <div
+                    className={
+                      successful ? "alert alert-success" : "alert alert-danger"
+                    }
+                    role="alert"
+                  >
+                    {message}
+                  </div>
+                </div>
+              )}
+              <CheckButton style={{ display: "none" }} ref={checkBtn} />
+            </Form>
+          </div>
+        </div>
+      ) : (
+        <VerifyOtp email={email} />
+      )}
     </div>
   );
 };
