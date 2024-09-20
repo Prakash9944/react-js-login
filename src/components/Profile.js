@@ -15,7 +15,7 @@ const Profile = () => {
   const fetchAudioFiles = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:3010/api/audio/lists");
+      const response = await fetch(`http://54.89.114.51:3010/api/audio/lists`);
       if (!response.ok) {
         throw new Error("Failed to fetch audio files");
       }
@@ -30,12 +30,11 @@ const Profile = () => {
   const fetchAudio = async (fileName) => {
     setIsLoading(true);
     try {
-        const response = await fetch(`http://localhost:3010/api/audio/${fileName}`);
+        const response = await fetch(`http://54.89.114.51:3010/api/audio/${fileName}`);
         const blob = await response.blob();
 
         const audioObjectUrl = URL.createObjectURL(blob);
         setAudioUrl(audioObjectUrl);
-        console.log("blobblobblob", audioObjectUrl)
         setIsLoading(false);
     } catch (error) {
         console.error('Error fetching audio:', error);
@@ -62,7 +61,7 @@ const Profile = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:3010/api/upload', {
+      const response = await fetch(`http://54.89.114.51:3010/api/upload`, {
         method: 'POST',
         body: formData,
       });
